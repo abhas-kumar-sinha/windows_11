@@ -1,0 +1,52 @@
+
+const Box = ({ isMinimized, isMaximized }) => {
+  const minimizedSize = { width: 1, height: 1 }; // Prevent sudden collapse
+  const minimizedPosition = { x: window.innerWidth / 2, y: window.innerHeight - 20 };
+
+  return (
+    <Rnd
+      size={
+        isMinimized
+          ? minimizedSize
+          : isMaximized
+          ? { width: window.innerWidth, height: window.innerHeight }
+          : undefined
+      }
+      position={
+        isMinimized
+          ? minimizedPosition
+          : isMaximized
+          ? { x: 0, y: 0 }
+          : undefined
+      }
+      default={{
+        width: 580,
+        height: 400,
+        x: window.innerWidth / 2 - 100, // Centered positioning
+        y: window.innerHeight / 2 - 100,
+      }}
+      disableDragging={isMaximized}
+      disableResizing={isMaximized || isMinimized}
+      enableResizing={
+        !isMaximized && !isMinimized
+          ? { top: true, right: true, bottom: true, left: true }
+          : {}
+      }
+      resizeHandleStyles={{
+        top: { cursor: "ns-resize" },
+        right: { cursor: "ew-resize" },
+        bottom: { cursor: "ns-resize" },
+        left: { cursor: "ew-resize" },
+      }}
+      className={`bg-[#222222] border border-[#3b3a3a] overflow-hidden transition-all duration-150 ${
+        isMaximized || isMinimized ? "" : "rounded-lg"
+      }`}
+    >
+      {!isMinimized && (
+        <div className="relative w-full h-full bg-[#171717] text-[#ededed] cursor-auto rounded-lg">
+          {/* Content goes here */}
+        </div>
+      )}
+    </Rnd>
+  );
+};
